@@ -1,0 +1,25 @@
+==================================================
+FACTURA DE VENTA ELECTRÓNICA No. FEV-2026-0915
+==================================================
+Fecha de Emisión: 02 de Diciembre de 2026
+Fecha de Vencimiento: 02 de Diciembre de 2026
+
+EMISOR:
+Suministros Industriales del Norte S.A.
+NIT: 890.200.111-3
+Bucaramanga, Colombia
+
+CLIENTE:
+Unidades Tecnológicas de Santander (UTS)
+NIT: 890.205.321-9
+
+DETALLE DE COMPRA:
+- 10 x Módulo Microcontrolador ESP32 WROOM-32U @ $ 45.000 c/u = $ 450.000
+- 10 x Lector RFID MFRC522 con tarjetas RC522 @ $ 25.000 c/u = $ 250.000
+- 50 x Tarjetas de Proximidad RFID 13.56MHz @ $ 3.000 c/u = $ 150.000
+
+SUBTOTAL:          $ 850.000 COP
+IVA (19%):         $ 161.500 COP
+RETENCION (2.5%):  $  21.250 COP
+TOTAL A PAGAR:     $ 990.250 COP
+==================================================

@@ -1,0 +1,20 @@
+==================================================
+COTIZACIÓN DE SERVICIOS No. COT-2026-309
+==================================================
+Fecha: 10 de Agosto de 2026
+
+PREPARADO PARA:
+Mendoza Celis S.A.S.
+
+PREPARADO POR:
+Cloud & Security Systems Ltd.
+Contacto: soporte@cloudsystems.co
+
+SERVICIOS DE MONITOREO Y CLOUD:
+- Configuración de Servidor de Métricas con InfluxDB y Grafana.
+- Integración de Broker MQTT Node-RED para captura de eventos IoT.
+- Capacitación al personal técnico (8 horas).
+
+VALOR TOTAL ESTIMADO: $ 4.500.000 COP (Exento de IVA según Art. 476 ET)
+Validez: 30 días.
+==================================================

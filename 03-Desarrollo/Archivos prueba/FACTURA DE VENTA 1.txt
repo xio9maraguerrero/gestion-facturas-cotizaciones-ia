@@ -1,0 +1,20 @@
+FACTURA DE VENTA N°: FAC-2026-089
+FECHA: 2026-09-11
+
+PROVEEDOR:
+Nombre: TECNOLOGIA Y SOLUCIONES S.A.S.
+NIT: 901.852.410-3
+Direccion: Calle 15 # 24-30, Bucaramanga
+
+CLIENTE:
+Nombre: Mendoza Celis S.A.S.
+NIT: 800.123.456-1
+
+DETALLE DE ITEMS:
+- Servicio de Desarrollo de Software Móvil | Cantidad: 1 | Valor: $2,500,000
+- Lector RFID MFRC522 e Integración ESP32 | Cantidad: 2 | Valor: $300,000
+
+RESUMEN FINANCIERO:
+Subtotal: $2,800,000
+Impuestos (IVA 19%): $532,000
+Total a pagar: $3,332,000

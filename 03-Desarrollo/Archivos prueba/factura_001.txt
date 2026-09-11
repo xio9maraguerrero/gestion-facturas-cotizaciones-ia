@@ -1,0 +1,34 @@
+==================================================
+FACTURA DE VENTA ELECTRÓNICA No. FEV-2026-0841
+==================================================
+Fecha de Emisión: 15 de Octubre de 2026
+Fecha de Vencimiento: 15 de Noviembre de 2026
+
+EMISOR:
+Mendoza Celis S.A.S.
+NIT: 900.548.123-1
+Dirección: Calle 36 # 18-42, Bucaramanga, Santander
+Teléfono: (607) 634-9000
+Email: facturacion@mendozacelis.com.co
+
+CLIENTE:
+Soluciones Informáticas del Oriente Ltda.
+NIT: 800.123.456-7
+Dirección: Carrera 27 # 45-10, Bucaramanga
+
+DESCRIPCIÓN DE PRODUCTOS / SERVICIOS:
+--------------------------------------------------------------------------------
+Item | Descripción                              | Cant | Valor Unit. | Total
+--------------------------------------------------------------------------------
+001  | Servidor Dell PowerEdge R450 Rack        |  1   | $12.500.000 | $12.500.000
+002  | Licencia Microsoft Windows Server 2025   |  2   | $ 2.100.000 | $ 4.200.000
+003  | Servicio de Configuración e Instalación  |  1   | $ 1.500.000 | $ 1.500.000
+--------------------------------------------------------------------------------
+
+RESUMEN FINANCIERO:
+Subtotal:          $ 18.200.000 COP
+IVA (19%):         $  3.458.000 COP
+TOTAL A PAGAR:     $ 21.658.000 COP
+
+Método de Pago: Transferencia Bancaria - Bancolombia Cuenta Ahorros No. 048-912834-01
+==================================================

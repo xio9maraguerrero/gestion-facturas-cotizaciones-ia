@@ -1,0 +1,32 @@
+==================================================
+PROPUESTA COMERCIAL Y COTIZACIÓN No. COT-2026-102
+==================================================
+Fecha: 22 de Septiembre de 2026
+Validez de la oferta: 15 días calendario
+
+PROVEEDOR:
+TechSoft Soluciones Digitales
+NIT: 901.321.654-9
+Email: ventas@techsoft.com.co
+
+CLIENTE:
+Distribuidora La Casa del Chocolate 507
+Atención: Gerencia Comercial
+
+DETALLE DE LA COTIZACIÓN:
+1. Desarrollo de Módulo E-commerce en Jetpack Compose / Web.
+   - Catálogo interactivo de productos
+   - Pasarela de pagos integrada (Wompi / PayU)
+   - Panel de administración de inventario
+   Valor estimado: $ 6.800.000 COP
+
+2. Configuración de Infraestructura Cloud en AWS EC2 & Docker.
+   - Despliegue de contenedores y base de datos MySQL
+   - Configuración de certificados SSL y dominio
+   Valor estimado: $ 2.200.000 COP
+
+--------------------------------------------------
+TOTAL COTIZADO:    $ 9.000.000 COP
+Tiempo de entrega: 45 días hábiles
+Condiciones de pago: 50% anticipo, 50% contra entrega.
+==================================================
