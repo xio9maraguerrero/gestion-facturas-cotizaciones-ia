@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Gestión Documental Inteligente - Dashboard</title>
+
+  <link rel="stylesheet" href="styles.css">
+
+  
+</head>
+<body class="theme-dark not-authenticated">
+  <header class="app-header">
+    <div class="brand">
+      <h1>Gestión Documental IA</h1>
+      <small class="tagline">Análisis automático · RAG · Auditoría</small>
+    </div>
+
+    <div class="header-actions">
+      <div id="server-status" class="server-status offline" title="Estado del servidor">
+        <span class="dot"></span><span id="server-status-text">Desconocido</span>
+      </div>
+
+      <button id="theme-toggle" class="btn small" aria-label="Alternar tema">Modo claro</button>
+
+      <div id="user-wrap" class="user-wrap">
+        <div id="auth-forms" class="auth-forms">
+          <button id="show-login" class="btn primary" type="button">Iniciar sesión</button>
+          <button id="show-register" class="btn" type="button">Registrarse</button>
+        </div>
+
+        <div id="user-panel" class="user-panel hidden">
+          <span id="user-email"></span>
+          <button id="logout-btn" class="btn danger small" type="button">Cerrar sesión</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" id="app">
+
+    <!-- Guest hero (visible when not authenticated) -->
+    <div id="guest-hero" role="region" aria-live="polite">
+      <h1>Gestión Documental IA</h1>
+      <p class="tagline">Análisis automático · RAG · Auditoría</p>
+      <div class="hero-actions">
+        <button id="hero-login" class="btn primary" type="button">Iniciar sesión</button>
+        <button id="hero-register" class="btn" type="button">Registrarse</button>
+      </div>
+    </div>
+
+    <!-- Dashboard principal -->
+    <section class="dashboard" aria-live="polite">
+      <div class="kpis" role="region" aria-label="Indicadores">
+        <div class="kpi-card"><div class="kpi-title">Total de documentos</div><div class="kpi-value" id="kpi-total">—</div></div>
+        <div class="kpi-card"><div class="kpi-title">Almacenamiento usado</div><div class="kpi-value" id="kpi-storage">—</div></div>
+        <div class="kpi-card"><div class="kpi-title">Estado del servidor</div><div class="kpi-value" id="kpi-server">—</div></div>
+        <div class="kpi-card"><div class="kpi-title">Documentos procesados</div><div class="kpi-value" id="kpi-processed">—</div></div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-left">
+          <div class="chart-card" aria-label="Distribución por formato" role="img">
+            <h3>Distribución por formato</h3>
+            <div id="chart-placeholder" style="position: relative; height: 220px; width: 100%;"><canvas id="categories-chart"></canvas></div>
+          </div>
+
+          <div class="upload-card">
+            <h3>Carga de documentos</h3>
+
+            <div class="repo-select-wrap" style="margin-bottom:8px;">
+              <select id="select-repositorio" style="flex:1; padding:8px; border-radius:8px;"></select>
+              <button id="btn-repo-settings" class="btn icon" type="button" aria-haspopup="true" aria-expanded="false">⚙️</button>
+
+              <div id="repo-dropdown-menu" class="dropdown-menu hidden" role="menu" aria-labelledby="btn-repo-settings">
+                <button id="opt-create-repo" class="dropdown-item" type="button">➕ Crear nuevo repositorio</button>
+                <button id="opt-edit-repo" class="dropdown-item" type="button">✏️ Renombrar repositorio actual</button>
+                <button id="opt-delete-repo" class="dropdown-item danger" type="button">🗑️ Eliminar repositorio actual</button>
+              </div>
+            </div>
+
+            <div id="dropzone" class="dropzone" role="button" tabindex="0">
+              <div class="drop-inner">
+                <p>Arrastra y suelta archivos aquí (PDF, DOCX, TXT)</p>
+                <p class="muted">o haz clic para seleccionar</p>
+                <input id="file-input" type="file" multiple accept=".pdf,.docx,.txt" hidden />
+              </div>
+            </div>
+
+            <div id="upload-list" class="upload-list" aria-live="polite"></div>
+          </div>
+        </div>
+
+        <div class="panel-right">
+          <div class="panel-actions" style="display:flex; gap:8px; align-items:center; margin-bottom:10px;">
+            <input id="search-input" type="search" placeholder="Buscar documentos por nombre..." style="flex:1;" />
+            <select id="select-categoria" style="padding:8px; border-radius:8px;">
+              <option value="Todas">Todas</option>
+              <option value="Factura">Factura</option>
+              <option value="Cotización">Cotización</option>
+              <option value="Cuenta de Cobro">Cuenta de Cobro</option>
+              <option value="Otro">Otro</option>
+            </select>
+            <button id="refresh-btn" class="btn" type="button">Refrescar</button>
+          </div>
+
+          <div class="table-wrap" role="region" aria-label="Lista de documentos">
+            <table id="docs-table" class="docs-table">
+              <thead>
+                <tr>
+                  <th>Nombre del archivo</th>
+                  <th>Repositorio</th>
+                  <th>Formato</th>
+                  <th>Estado IA</th>
+                  <th>Categoría</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="docs-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+ <!-- MODAL: AUTHENTICATION (LOGIN / REGISTRO) -->
+<div id="modal-auth" class="modal hidden" role="dialog" aria-modal="true">
+  <div class="modal-inner" style="max-width: 400px;">
+    <div class="modal-header">
+      <h3 id="auth-title">Iniciar Sesión</h3>
+      <button class="modal-close" data-close aria-label="Cerrar">✕</button>
+    </div>
+    <div class="modal-content">
+      <!-- Formulario de Login -->
+      <form id="form-login" class="auth-form" onsubmit="return false;">
+        <label>Correo Electrónico <input type="email" name="email" id="login-email" required /></label>
+        <label>Contraseña <input type="password" name="password" id="login-password" required /></label>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:12px;">
+          <button type="button" class="btnLink" data-switch="register" style="background:none; border:none; color:var(--primary); cursor:pointer; font-size:13px; text-decoration:underline;">¿No tienes cuenta? Regístrate</button>
+          <button type="submit" class="btn primary" id="btn-submit-login">Entrar</button>
+        </div>
+        <div id="auth-error" class="form-error" style="color: #ef4444; margin-top: 8px; font-size: 13px;"></div>
+      </form>
+
+      <!-- Formulario de Registro -->
+      <form id="form-register" class="auth-form hidden" onsubmit="return false;">
+        <label>Nombre Completo <input type="text" name="nombre" id="register-name" required /></label>
+        <label>Correo Electrónico <input type="email" name="email" id="register-email" required /></label>
+        <label>Contraseña <input type="password" name="password" id="register-password" required /></label>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:12px;">
+          <button type="button" class="btnLink" data-switch="login" style="background:none; border:none; color:var(--primary); cursor:pointer; font-size:13px; text-decoration:underline;">¿Ya tienes cuenta? Inicia sesión</button>
+          <button type="submit" class="btn primary">Registrarse</button>
+        </div>
+        <div id="register-error" class="form-error" style="color: #ef4444; margin-top: 8px; font-size: 13px;"></div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<!-- MODAL: CHAT -->
+  <div id="modal-chat" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="modal-inner chat-modal">
+      <div class="modal-header">
+        <h3 id="chat-title">Chat IA</h3>
+        <button class="modal-close" data-close aria-label="Cerrar">✕</button>
+      </div>
+      <div class="chat-modal-content">
+        <div id="chat-history" class="chat-history" aria-live="polite"></div>
+        <form id="chat-form" class="chat-form">
+          <input type="text" id="chat-input" placeholder="Escribe tu pregunta..." autocomplete="off" required style="flex:1;" />
+          <button type="submit" class="btn primary">Enviar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: CREAR REPO -->
+  <div id="modal-new-repo" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="modal-inner">
+      <div class="modal-header"><h3>Crear nuevo repositorio</h3><button class="modal-close" data-close>✕</button></div>
+      <div class="modal-content">
+        <form id="form-new-repo" class="auth-form">
+          <label>Nombre <input type="text" name="nombre" required /></label>
+          <label>Descripción <input type="text" name="descripcion" /></label>
+          <div style="display:flex; gap:8px; justify-content:flex-end; margin-top:8px;">
+            <button type="button" id="btn-new-repo-cancel" class="btn cancel">Cancelar</button>
+            <button type="submit" class="btn primary">Crear</button>
+          </div>
+          <div id="new-repo-error" class="form-error"></div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: EDITAR REPO -->
+<div id="modal-edit-repo" class="modal hidden" role="dialog" aria-modal="true">
+  <div class="modal-inner">
+    <div class="modal-header">
+      <h3>Editar repositorio</h3>
+      <button class="modal-close" data-close>✕</button>
+    </div>
+    <div class="modal-content">
+      <form id="form-edit-repo" class="auth-form">
+        <input type="hidden" id="edit-repo-id" name="id" />
+        <label>
+          Nombre 
+          <input type="text" id="edit-repo-nombre" name="nombre" required />
+        </label>
+        <label>
+          Descripción 
+          <input type="text" id="edit-repo-descripcion" name="descripcion" />
+        </label>
+        <div style="display:flex; gap:8px; justify-content:flex-end; margin-top:8px;">
+          <button type="button" id="btn-edit-repo-cancel" class="btn cancel">Cancelar</button>
+          <button type="submit" class="btn primary">Guardar Cambios</button>
+        </div>
+        <div id="edit-repo-error" class="form-error" style="color: #ef4444; margin-top: 8px;"></div>
+      </form>
+    </div>
+  </div>
+</div>
+
+  <!-- MODAL: CONFIRMACIÓN -->
+  <div id="confirm-modal" class="confirm-modal hidden" role="dialog" aria-modal="true" aria-labelledby="confirm-modal-title">
+    <div class="confirm-modal-backdrop"></div>
+    <div class="confirm-modal-panel" role="document">
+      <header class="confirm-modal-header">
+        <h2 id="confirm-modal-title" class="confirm-modal-title">Proyecto</h2>
+        <button id="confirm-modal-close" class="confirm-modal-close" aria-label="Cerrar">×</button>
+      </header>
+      <div class="confirm-modal-body"><p id="confirm-modal-message" class="confirm-modal-message"></p></div>
+      <footer class="confirm-modal-footer">
+        <button id="confirm-cancel-btn" class="btn cancel" type="button">Cancelar</button>
+        <button id="confirm-accept-btn" class="btn accept" type="button">Aceptar</button>
+      </footer>
+    </div>
+  </div>
+
+  <!-- MODAL: DETALLES DOC -->
+  <div id="modal-doc-details" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="modal-inner">
+      <div class="modal-header">
+        <h3 id="detail-doc-title">Análisis Documental IA</h3>
+        <button class="modal-close" data-close aria-label="Cerrar">✕</button>
+      </div>
+      <div class="modal-content">
+        <div>
+          <h4 style="color: var(--primary); margin-top:6px;">Resumen Generado por IA</h4>
+          <p id="detail-doc-summary" style="background: rgba(255,255,255,0.02); padding: 10px; border-radius: 6px; font-size: 14px; margin-top: 5px;">Cargando resumen...</p>
+        </div>
+        <div style="margin-top:12px;">
+          <h4 style="color: var(--primary);">Información Extraída</h4>
+          <div id="detail-doc-extracted" style="background: rgba(255,255,255,0.02); padding: 10px; border-radius: 6px; font-size: 14px; margin-top: 8px;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+
+  <!-- Vendor & App scripts -->
+  <script src="/vendor/chart.umd.min.js"></script>
+  <script src="/vendor/marked.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
